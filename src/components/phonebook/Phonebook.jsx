@@ -1,54 +1,52 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { Form, Label, Input, Button } from './Phonebook.styled';
 
-export class Phonebook extends Component {
-  state = {
-    name: '',
-    number: '',
+export const Phonebook = ({ onAdd }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleNameChange = evt => {
+    const { value } = evt.target;
+    setName(value);
+  };
+  const handleNumberChange = evt => {
+    const { value } = evt.target;
+    setNumber(value);
   };
 
-  handleChange = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = evt => {
+  const onSubmit = evt => {
     evt.preventDefault();
-    this.props.onAdd(this.state);
-    this.setState({
-      name: '',
-      number: '',
-    });
+    onAdd({ name, number });
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <Label for="user_name">Name</Label>
-        <Input
-          id="user_name"
-          type="text"
-          name="name"
-          value={this.state.name}
-          onChange={this.handleChange}
-          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-        <Label for="user_tel">Number</Label>
+  return (
+    <Form onSubmit={onSubmit}>
+      <Label for="user_name">Name</Label>
+      <Input
+        id="user_name"
+        type="text"
+        name="name"
+        value={name}
+        onChange={handleNameChange}
+        pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+        required
+      />
+      <Label for="user_tel">Number</Label>
 
-        <Input
-          id="user_tel"
-          type="tel"
-          name="number"
-          value={this.state.number}
-          onChange={this.handleChange}
-          pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-        <Button type="submit">Add Contact</Button>
-      </Form>
-    );
-  }
-}
+      <Input
+        id="user_tel"
+        type="tel"
+        name="number"
+        value={number}
+        onChange={handleNumberChange}
+        pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+        required
+      />
+      <Button type="submit">Add Contact</Button>
+    </Form>
+  );
+};
