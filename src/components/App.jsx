@@ -13,6 +13,7 @@ export const App = () => {
       const parsedContacts = JSON.parse(saveContacts);
       return parsedContacts;
     }
+    return [];
   });
 
   const [filter, setFilter] = useState('');
